@@ -3,9 +3,9 @@
 <div class="contents row">
   <% @recos.each do |reco| %>
     <div class="content_post" style="background-image: url(<%= reco.image %>);">
-      <p><%= reco.text %></p>
+      <p><%= reco.title %></p>
       <span class="name">
-        <%= reco.title %>
+        <%= reco.content %>
       </span>
       <%= image_tag reco.image, class: 'message-image' if reco.image.attached? %>
     </div>

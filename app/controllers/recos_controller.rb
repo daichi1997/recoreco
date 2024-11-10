@@ -33,7 +33,7 @@ class RecosController < ApplicationController
 
   private
   def reco_params
-    params.require(:reco).permit(:title,:text,:image).merge(user_id: current_user.id)
+    params.require(:reco).permit(:title,:content,:image).merge(user_id: current_user.id)
   end
 
 
