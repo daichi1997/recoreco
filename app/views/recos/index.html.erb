@@ -1,13 +1,15 @@
-
 <h2>ブログ記事一覧</h2>
-<div class="contents row">
+<div class="contents-container">
   <% @recos.each do |reco| %>
-    <div class="content_post" style="background-image: url(<%= reco.image %>);">
-      <p><%= reco.title %></p>
-      <span class="name">
+    <div class="content-item">
+           <p class="title"><%= reco.title %></p>
+      <span class="content">
         <%= reco.content %>
       </span>
-      <%= image_tag reco.image, class: 'message-image' if reco.image.attached? %>
-    </div>
+ 
+      <div class="image-container">
+        <%= image_tag reco.image, class: 'message-image' if reco.image.attached? %>
+      </div>
+   </div>
   <% end %>
 </div>
