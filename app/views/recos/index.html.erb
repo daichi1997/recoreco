@@ -1,8 +1,17 @@
 <h2>ブログ記事一覧</h2>
+
+<div class="sort-links">
+  <%= link_to '新しい順', recos_path(sort: 'desc') %>
+  |
+  <%= link_to '古い順', recos_path(sort: 'asc') %>
+</div>
+
 <div class="contents-container">
   <% @recos.each do |reco| %>
     <div class="content-item">
+     <%= link_to reco_path(reco) do %>
            <p class="title"><%= reco.title %></p>
+           <% end %>
       <span class="content">
         <%= reco.content %>
       </span>

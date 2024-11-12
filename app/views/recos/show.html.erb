@@ -1,0 +1,26 @@
+<div class="blog-post-detail">
+  <h1 class="blog-title"><%= @reco.title %></h1>
+
+  <div class="blog-meta">
+    <span class="date">投稿日: <%= @reco.created_at.strftime('%Y年%m月%d日') %></span>
+    <% if @reco.updated_at != @reco.created_at %>
+      <span class="date">更新日: <%= @reco.updated_at.strftime('%Y年%m月%d日') %></span>
+    <% end %>
+  </div>
+
+  <div class="blog-content">
+    <%= simple_format(@reco.content) %>
+  </div>
+
+  <% if @reco.image.attached? %>
+    <div class="blog-image">
+      <%= image_tag @reco.image, class: 'full-width-image' %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= link_to '編集', edit_reco_path(@reco), class: 'btn btn-edit' %>
+    <%= link_to '削除', reco_path(@reco), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-delete' %>
+    <%= link_to '一覧に戻る', recos_path, class: 'btn btn-back' %>
+  </div>
+</div>

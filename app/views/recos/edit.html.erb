@@ -1,0 +1,43 @@
+<div class="edit-reco-container">
+  <h1>記事の編集</h1>
+
+  <%= form_with(model: @reco, local: true, class: 'edit-reco-form') do |form| %>
+    <% if @reco.errors.any? %>
+      <div class="error-messages">
+        <h2><%= pluralize(@reco.errors.count, "error") %> prohibited this reco from being saved:</h2>
+        <ul>
+          <% @reco.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :title, 'タイトル' %>
+      <%= form.text_field :title, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :content, '内容' %>
+      <%= form.text_area :content, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :image, '画像' %>
+      <%= form.file_field :image, class: 'form-control-file' %>
+    </div>
+
+    <% if @reco.image.attached? %>
+      <div class="current-image">
+        <p>現在の画像:</p>
+        <%= image_tag @reco.image, class: 'thumbnail' %>
+      </div>
+    <% end %>
+
+    <div class="form-actions">
+      <%= form.submit '更新', class: 'btn btn-primary' %>
+      <%= link_to '戻る', reco_path(@reco), class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+</div>

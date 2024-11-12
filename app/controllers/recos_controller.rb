@@ -1,7 +1,20 @@
 class RecosController < ApplicationController
+  before_action :set_reco, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @recos = Reco.all
+    
+    if params[:sort]
+      order = params[:sort] == 'asc' ? 'asc' : 'desc'
+      @recos = @recos.order(created_at: order)
+    else
+      @recos = @recos.order(created_at: :desc) # デフォルトは降順
+    end
+  end
+
+
+  def show
   end
 
   def new
@@ -9,32 +22,39 @@ class RecosController < ApplicationController
   end
 
   def create
-    Reco.create(reco_params)
-    redirect_to '/'
-  end
-
-  def destroy
-    reco = Reco.find(params[:id])
-    reco.destroy
-    redirect_to root_path
+    @reco = current_user.recos.build(reco_params)
+    if @reco.save
+      redirect_to @reco, notice: '記事が正常に作成されました。'
+    else
+      render :new
+    end
   end
 
   def edit
   end
 
   def update
-    reco = reco.find(params[:id])
-    reco.update(reco_params)
-    redirect_to root_path
+    if @reco.update(reco_params)
+      redirect_to @reco, notice: '記事が正常に更新されました。'
+    else
+      render :edit
+    end
   end
 
-  def show
+  def destroy
+    @reco.destroy
+    redirect_to recos_url, notice: '記事が正常に削除されました。'
   end
 
   private
-  def reco_params
-    params.require(:reco).permit(:title,:content,:image).merge(user_id: current_user.id)
+
+  def set_reco
+    @reco = Reco.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to recos_path, alert: '指定された記事が見つかりません。'
   end
 
-
+  def reco_params
+    params.require(:reco).permit(:title, :content, :image)
+  end
 end
