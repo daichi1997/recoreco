@@ -1,0 +1,30 @@
+<div class="mypage-container">
+  <div class="user-info">
+    <h1><%= @user.nickname %>のマイページ</h1>
+    <p>メールアドレス: <%= @user.email %></p>
+    <%= link_to 'プロフィール編集', edit_user_registration_path, class: 'btn btn-edit' %>
+  </div>
+
+  <div class="user-posts">
+    <h2>投稿一覧</h2>
+    <% if @user.recos.any? %>
+      <div class="posts-grid">
+        <% @user.recos.each do |reco| %>
+          <div class="post-card">
+            <%= link_to reco_path(reco) do %>
+              <% if reco.image.attached? %>
+                <%= image_tag reco.image, class: 'post-image' %>
+              <% else %>
+                <div class="no-image">No Image</div>
+              <% end %>
+              <h3><%= reco.title %></h3>
+              <p><%= truncate(reco.content, length: 100) %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p>まだ投稿がありません。</p>
+    <% end %>
+  </div>
+</div>

@@ -15,6 +15,8 @@ class RecosController < ApplicationController
 
 
   def show
+    @comment = Comment.new
+    @comments = @reco.comments.includes(:user)
   end
 
   def new
@@ -55,6 +57,6 @@ class RecosController < ApplicationController
   end
 
   def reco_params
-    params.require(:reco).permit(:title, :content, :image)
+    params.require(:reco).permit(:title, :content, :image).merge(user_id: current_user.id)
   end
 end

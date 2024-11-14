@@ -18,9 +18,31 @@
     </div>
   <% end %>
 
+   <% if user_signed_in? && current_user.id == @reco.user_id %>
   <div class="actions">
     <%= link_to '編集', edit_reco_path(@reco), class: 'btn btn-edit' %>
-    <%= link_to '削除', reco_path(@reco), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-delete' %>
-    <%= link_to '一覧に戻る', recos_path, class: 'btn btn-back' %>
+<%= link_to '削除', reco_path(@reco), method: :delete, data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' }, class: 'btn btn-delete' %>    <%= link_to '一覧に戻る', recos_path, class: 'btn btn-back' %>
+  </div>
+  <% end %>
+    <div class="container">
+    <% if user_signed_in? %>
+      <%= form_with(model: [@reco, @comment], local: true) do |form| %>
+        <%= form.text_area :text, placeholder: "コメントする", rows: "2" %>
+        <%= form.submit "SEND" %>
+      <% end %>
+    <% else %>
+      <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p></strong>
+    <% end %>
+        <div class="comments">
+      <h4>＜コメント一覧＞</h4>
+      <% @comments.each do |comment| %>
+        <p>
+          <strong><%= link_to comment.user.nickname, user_path(comment.user)%>：</strong>
+          <%= comment.text %>
+        </p>
+      <% end %>
+    </div>
+
   </div>
 </div>
+
