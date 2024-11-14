@@ -2,7 +2,9 @@
   <div class="user-info">
     <h1><%= @user.nickname %>のマイページ</h1>
     <p>メールアドレス: <%= @user.email %></p>
-    <%= link_to 'プロフィール編集', edit_user_registration_path, class: 'btn btn-edit' %>
+    <% if user_signed_in? && current_user == @user %>
+      <%= link_to 'プロフィール編集', edit_user_registration_path, class: 'btn btn-edit' %>
+    <% end %>
   </div>
 
   <div class="user-posts">
