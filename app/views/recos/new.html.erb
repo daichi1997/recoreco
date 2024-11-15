@@ -23,9 +23,9 @@
     <%= form.text_area :content, class: 'form-control' %>
   </div>
 
-    <div class="field">
-    <%= form.label :image,'画像' %>
-    <%= form.file_field :image %>
+  <div class="field">
+    <%= form.label :images, '画像（複数選択可）' %>
+    <%= form.file_field :images, multiple: true, class: 'form-control' %>
   </div>
 
   <div class="actions">

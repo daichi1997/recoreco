@@ -3,14 +3,7 @@ class RecosController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @recos = Reco.all
-    
-    if params[:sort]
-      order = params[:sort] == 'asc' ? 'asc' : 'desc'
-      @recos = @recos.order(created_at: order)
-    else
-      @recos = @recos.order(created_at: :desc) # デフォルトは降順
-    end
+    @recos = Reco.all.order(created_at: params[:sort] == 'asc' ? :asc : :desc)
   end
 
 
@@ -26,6 +19,11 @@ class RecosController < ApplicationController
   def create
     @reco = current_user.recos.build(reco_params)
     if @reco.save
+      if params[:reco][:images]
+        params[:reco][:images].each do |image|
+          @reco.images.attach(image)
+        end
+      end
       redirect_to @reco, notice: '記事が正常に作成されました。'
     else
       render :new
@@ -37,6 +35,11 @@ class RecosController < ApplicationController
 
   def update
     if @reco.update(reco_params)
+      if params[:reco][:images]
+        params[:reco][:images].each do |image|
+          @reco.images.attach(image)
+        end
+      end
       redirect_to @reco, notice: '記事が正常に更新されました。'
     else
       render :edit
@@ -57,6 +60,6 @@ class RecosController < ApplicationController
   end
 
   def reco_params
-    params.require(:reco).permit(:title, :content, :image).merge(user_id: current_user.id)
+    params.require(:reco).permit(:title, :content,  {images: []}).merge(user_id: current_user.id)
   end
 end

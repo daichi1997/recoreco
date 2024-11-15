@@ -12,11 +12,11 @@
     <%= simple_format(@reco.content) %>
   </div>
 
-  <% if @reco.image.attached? %>
-    <div class="blog-image">
-      <%= image_tag @reco.image, class: 'full-width-image' %>
-    </div>
+<% if @reco.images.attached? %>
+  <% @reco.images.each do |image| %>
+    <%= image_tag image.variant(resize_to_fill: [500, 300]), class: 'reco-image' %>
   <% end %>
+<% end %>
 
    <% if user_signed_in? && current_user.id == @reco.user_id %>
   <div class="actions">

@@ -17,7 +17,9 @@
       </span>
  
       <div class="image-container">
-        <%= image_tag reco.image, class: 'message-image' if reco.image.attached? %>
+        <% if reco.images.attached? %>
+    <%= image_tag reco.images.first, class: 'message-image' %>
+     <% end %>
       </div>
    </div>
   <% end %>
